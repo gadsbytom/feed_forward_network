@@ -19,8 +19,6 @@ def feed_forward(X, weights_input, weights_m):
         Output: probablity distribution for y classes"""
     weighted_x = np.dot(X, weights_input)
     sigmoid_y = sigmoid(weighted_x)
-    #sigmoid_y[np.where(sigmoid_y>=0.5)] = 1  could also just round everything to 1 digit
-    #sigmoid_y[np.where(sigmoid_y<0.5)] = 0
     sigmoid_y_bias = np.hstack([sigmoid_y, np.ones((sigmoid_y.shape[0], 1))])
     hidden_weighted_x = np.dot(sigmoid_y_bias, weights_m)
     final_y = sigmoid(hidden_weighted_x)
