@@ -1,12 +1,11 @@
+#!/usr/bin/env python
+# coding: utf8
+
 from ann_feed_forward import feed_forward, sigmoid, tanh
 import logging
 import math
 import numpy as np
 import pandas as pd
-
-
-# logging.basicConfig(level=logging.DEBUG)
-# logging.debug("test")
 
 
 # define log loss
@@ -16,26 +15,18 @@ def log_loss(ytrue, ypred):
     loss = -(ytrue * np.log(ypred) + (1 - ytrue) * np.log(1 - ypred))
     return loss
 
-
 # derivative of the sigmoid
 def sigmoid_prime(x):
     derivative = sigmoid(x) * (1 - sigmoid(x))
     return derivative
 
-
-# sigmoid function
-def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
-
-
-# tanh function
-def tanh(x):
-    return (np.exp(x) - np.exp(-x)) / (np.exp(x) + np.exp(-x))
-
+# derivative of the tanh function
+def tanh_prime(x):
+    return 1-(np.exp(x) - np.exp(-x)) / (np.exp(x) + np.exp(-x))**2
 
 # backpropagation once through
 def backprop(
-    input_weights, output_weights, output_hidden, ypred, ytrue, X_input, LR_O, LR_H
+    input_weights, output_weights, output_hidden, ypred, ytrue, X_input, LR_O, LR_H, act='sigmoid'
 ):
     # separate learning rates for outer and inner weights.
 
@@ -48,11 +39,13 @@ def backprop(
     # logging.debug(f'shape of error is {error.shape}')
 
     # STEP B:
-    sig_deriv = sigmoid_prime(ypred)
-    # ogging.debug(f'shape of sig deriv is {sig_deriv.shape}')
+    if act=='sigmoid':
+        act_deriv = sigmoid_prime(ypred)
+    elif act=='tanh':
+        act_deriv = tanh_prime(ypred)
 
     # derivative of the sigmoid function with respect to the hidden output *
-    y_grad = sig_deriv * error
+    y_grad = act_deriv * error
     # logging.debug(f'shape of ygrad is {y_grad.shape}')
 
     # STEP C:
@@ -68,11 +61,14 @@ def backprop(
     wO_new = wO + delta_wo.transpose()
 
     # STEP D:
-    sig_deriv_2 = sigmoid_prime(output_hidden)
-    H_grad = sig_deriv_2 * np.dot(
+    if act=='sigmoid':
+        act_deriv_2 = sigmoid_prime(output_hidden)
+    elif act=='tanh':
+        act_deriv_2 = tanh_prime(output_hidden)
+
+    H_grad = act_deriv_2 * np.dot(
         y_grad, wO_new[:2].transpose()
     )  # this is updating the hidden layer
-    # logging.debug(f'shape of H_grad is {H_grad.shape}')
 
     # exclude the bias (3rd column) of the outer weights, since it is not backpropagated!
 
