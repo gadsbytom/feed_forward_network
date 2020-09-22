@@ -7,6 +7,7 @@ from ann_backprop import backprop, epoch
 from matplotlib import pyplot as plt
 import numpy as np
 
+
 if __name__ == "__main__":
 
 
@@ -14,15 +15,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="""Customise your own Neural Network,
                                     and try and solve the a binary classification problem.""")
 
-    parser.add_argument('-t', '--text',
+    parser.add_argument('-a', '--activation',
                         type=str,
-                        help='Test text.')
+                        help='Choose activation: sigmoid or tanh.')
 
     args = parser.parse_args()
-
-
-
-
 
     X, y = make_moons(n_samples=50, noise=0.2, random_state=42)
     plt.scatter(X[:, 0], X[:, 1], c=y)
@@ -36,10 +33,8 @@ if __name__ == "__main__":
     initial_weights = np.random.randn(3, 2)
     initial_m_weights = np.random.randn(3, 1)
 
-    out1, out2 = feed_forward(X, initial_weights, initial_m_weights)
-
     epoch_200_logloss, _, _ = epoch(
-        X, y, 5000, initial_weights, initial_m_weights, 0.01, 0.01
+        X, y, 5000, initial_weights, initial_m_weights, 0.01, 0.01, args.activation
     )
 
     plt.figure(figsize=(10, 10))

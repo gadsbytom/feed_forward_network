@@ -79,12 +79,12 @@ def backprop(
     return wH_new, wO_new
 
 
-def epoch(X, y, num_epochs, input_weights, output_weights, lr_o, lr_h):
+def epoch(X, y, num_epochs, input_weights, output_weights, lr_o, lr_h, act='sigmoid'):
     average_log_loss = []
     for i in range(num_epochs):
-        hidden_output, ypred = feed_forward(X, input_weights, output_weights)
+        hidden_output, ypred = feed_forward(X, input_weights, output_weights, act)
         input_weights, output_weights = backprop(
-            input_weights, output_weights, hidden_output, ypred, y, X, lr_o, lr_h
+            input_weights, output_weights, hidden_output, ypred, y, X, lr_o, lr_h, act
         )
         average_log_loss.append(np.sum(log_loss(y, ypred)))
         # logging.debug(f'the shape of the log_loss is {log_loss(y,ypred).shape}')
