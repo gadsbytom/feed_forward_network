@@ -16,8 +16,8 @@ def tanh(x):
 
 # feed forward the x values through the neurons
 def feed_forward(X, weights_input, weights_m):
-    """ Input: Observation data X and proceses one feed-forward loop
-        Output: probablity distribution for y classes"""
+    """Input: Observation data X and proceses one feed-forward loop
+    Output: probablity distribution for y classes"""
     weighted_x = np.dot(X, weights_input)
     sigmoid_y = sigmoid(weighted_x)
     sigmoid_y_bias = np.hstack([sigmoid_y, np.ones((sigmoid_y.shape[0], 1))])

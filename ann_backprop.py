@@ -1,12 +1,9 @@
+from ann_feed_forward import feed_forward, sigmoid, tanh
 import logging
 import math
-
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
-from sklearn.datasets import make_moons
 
-from ann_feed_forward import feed_forward, sigmoid, tanh
 
 # logging.basicConfig(level=logging.DEBUG)
 # logging.debug("test")
@@ -80,13 +77,13 @@ def backprop(
     # exclude the bias (3rd column) of the outer weights, since it is not backpropagated!
 
     # STEP E:
-    delta_wH = -np.dot(H_grad.transpose(), X) * LR_H
+    delta_wH = -np.dot(H_grad.transpose(), X_input) * LR_H
     wH_new = wH + delta_wH.transpose()  # old weights + delta weights -> new weights!
 
     return wH_new, wO_new
 
 
-def epoch(num_epochs, input_weights, output_weights, lr_o, lr_h):
+def epoch(X, y, num_epochs, input_weights, output_weights, lr_o, lr_h):
     average_log_loss = []
     for i in range(num_epochs):
         hidden_output, ypred = feed_forward(X, input_weights, output_weights)
@@ -96,28 +93,3 @@ def epoch(num_epochs, input_weights, output_weights, lr_o, lr_h):
         average_log_loss.append(np.sum(log_loss(y, ypred)))
         # logging.debug(f'the shape of the log_loss is {log_loss(y,ypred).shape}')
     return average_log_loss, input_weights, output_weights
-
-
-if __name__ == "__main__":
-
-    X, y = make_moons(n_samples=50, noise=0.2, random_state=42)
-    plt.scatter(X[:, 0], X[:, 1], c=y)
-    X.shape, y.shape
-
-    # make the feed forward network
-    X = np.hstack(
-        [X, np.ones((X.shape[0], 1))]
-    )  # adding an extra dimension for the bias
-
-    initial_weights = np.random.randn(3, 2)
-    initial_m_weights = np.random.randn(3, 1)
-
-    out1, out2 = feed_forward(X, initial_weights, initial_m_weights)
-
-    epoch_200_logloss, _, _ = epoch(
-        5000, initial_weights, initial_m_weights, 0.01, 0.01
-    )
-
-    plt.figure(figsize=(10, 10))
-    plt.plot(epoch_200_logloss)
-    plt.show()
