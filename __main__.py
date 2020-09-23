@@ -17,7 +17,8 @@ if __name__ == "__main__":
 
     parser.add_argument('-a', '--activation',
                         type=str,
-                        help='Choose activation: sigmoid or tanh.')
+                        help='Choose activation: sigmoid or tanh.',
+                        default='sigmoid')
 
     args = parser.parse_args()
 
