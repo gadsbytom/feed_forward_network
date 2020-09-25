@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # coding: utf8
 from sklearn.datasets import make_moons
+from training import epoch
 import time
-from ann_feed_forward import feed_forward, sigmoid, tanh
-from ann_backprop import backprop, epoch
 from matplotlib import pyplot as plt
 import numpy as np
 
@@ -76,13 +75,14 @@ if __name__ == "__main__":
     X, y = generate_data()
 
     initial_weights = np.random.randn(3, 2)
-    initial_m_weights = np.random.randn(3, 1)
+    hidden_1_weights = np.random.randn(3, 2)
+    hidden_2_weights = np.random.randn(3, 1)
 
     #print(architecture.items())
 
 
     epoch_logloss, num_epochs, _, _ = epoch(
-        X, y, 5000, initial_weights, initial_m_weights, 0.01, 0.01, 'sigmoid'
+        X, y, 5000, initial_weights, hidden_1_weights, hidden_2_weights, 0.01, 0.01, 'sigmoid'
     )
 
     plt.figure(figsize=(10, 10))
