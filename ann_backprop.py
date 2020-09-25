@@ -60,7 +60,7 @@ def backprop_one_hidden(
 
 
 # backpropagation once through
-def CUST_backprop(
+def backprop_two_hidden(
     input_weights, hidden_1_weights, hidden_2_weights, output1_hidden, output2_hidden, ypred, ytrue, X_input, LR, LR_H, act
 ):
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf8
 from sklearn.datasets import make_moons
-from training import epoch
+from training import epoch_one, epoch_two
 import time
 from matplotlib import pyplot as plt
 import numpy as np
@@ -66,24 +66,39 @@ if __name__ == "__main__":
 #
 # print(layers.items())
 
+
     def generate_data():
         X, y = make_moons(n_samples=50, noise=0.2, random_state=42)
         X = np.hstack([X, np.ones((X.shape[0], 1))])
         return X,y
 
 
-    X, y = generate_data()
-
     initial_weights = np.random.randn(3, 2)
     hidden_1_weights = np.random.randn(3, 2)
     hidden_2_weights = np.random.randn(3, 1)
 
-    #print(architecture.items())
+    X, y = generate_data()
 
 
-    epoch_logloss, num_epochs, _, _ = epoch(
-        X, y, 5000, initial_weights, hidden_1_weights, hidden_2_weights, 0.01, 0.01, 'sigmoid'
-    )
+    correct = False
+    while not correct:
+
+        depth = input('One hidden layer or two?\n\n').lower()
+        if depth == 'one' or depth == 'two':
+            correct = True
+
+    if depth == "one":
+
+        epoch_logloss, num_epochs, _, _ = epoch_one(
+            X, y, 5000, initial_weights, hidden_2_weights, 0.01, 0.01, 'sigmoid'
+        )
+
+    elif depth == 'two':
+
+        epoch_logloss, num_epochs, _, _ = epoch_two(
+            X, y, 5000, initial_weights, hidden_1_weights, hidden_2_weights, 0.01, 0.01, 'sigmoid'
+        )
+
 
     plt.figure(figsize=(10, 10))
     plt.plot(epoch_logloss)

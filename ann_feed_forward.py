@@ -23,7 +23,7 @@ def feed_forward_one_hidden(X, weights_input, weights_m, act):
         act_x = sigmoid(weighted_x)
     elif act=='tanh':
         act_x = tanh(weighted_x)
-    act_x_bias = np.hstack([act_x, np.ones((act_y.shape[0], 1))])
+    act_x_bias = np.hstack([act_x, np.ones((act_x.shape[0], 1))])
     hidden_weighted_x = np.dot(act_x_bias, weights_m)
     #no tanh cos activation is probablity distribution
     final_y = sigmoid(hidden_weighted_x)
