@@ -11,6 +11,7 @@ if __name__ == "__main__":
 
 #     completed = False
 #     architecture = {}
+
 #     no_layers = 0
 #     neurons = 0
 #     activation = ''
