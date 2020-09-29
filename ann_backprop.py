@@ -74,55 +74,61 @@ def backprop_two_hidden(
 
     ytrue = ytrue.reshape(-1, 1)
 
-    error = (ypred - ytrue) * log_loss(ytrue, ypred)  # although order doesn't matter
-    # no option here as output layer is probability distribution
-    act_deriv = sigmoid_prime(ypred)
-    # derivative of the sigmoid function with respect to the hidden output *
-    y_grad = act_deriv * error
+    no_layers = len(weights)
 
-    hidden_2_with_bias = np.hstack(
-        [output2_hidden, np.ones((output2_hidden.shape[0], 1))]
-    )
-    # include bias
+    for i in range(no_layers):
 
+        if i == 0:
 
-    delta_wH2 = -np.dot(y_grad.transpose(), hidden_2_with_bias) * LR
+            error = (ypred - ytrue) * log_loss(ytrue, ypred)  # although order doesn't matter
+            # no option here as output layer is probability distribution
+            act_deriv = sigmoid_prime(ypred)
+            # derivative of the sigmoid function with respect to the hidden output *
+            y_grad = act_deriv * error
 
-    # old weights + delta weights -> new weights!
-    wH2_new = hidden_2_weights + delta_wH2.transpose()
+            hidden_2_with_bias = np.hstack(
+                [output2_hidden, np.ones((output2_hidden.shape[0], 1))]
+            )# include bias
 
-    if act=='sigmoid':
-        act_deriv_2 = sigmoid_prime(output2_hidden)
-    elif act=='tanh':
-        act_deriv_2 = tanh_prime(output2_hidden)
+            delta_wH2 = -np.dot(y_grad.transpose(), hidden_2_with_bias) * LR
 
+            # old weights + delta weights -> new weights!
+            wH2_new = hidden_2_weights + delta_wH2.transpose()
+        
+        elif i < no_layers-1:
 
-    H2_grad = act_deriv_2 * np.dot(
-        y_grad, wH2_new[:2].transpose()
-    )  # this is updating the hidden layer
-    # exclude the bias (3rd column) of the outer weights, since it is not backpropagated!
-
-    hidden_1_with_bias = np.hstack(
-        [output1_hidden, np.ones((output1_hidden.shape[0], 1))]
-        )
-
-    delta_wH1 = -np.dot(H2_grad.transpose(), hidden_1_with_bias) * LR
-    wH1_new = hidden_1_weights + delta_wH1.transpose()  # old weights + delta weights -> new weights!
+            if act=='sigmoid':
+                act_deriv_2 = sigmoid_prime(output2_hidden)
+            elif act=='tanh':
+                act_deriv_2 = tanh_prime(output2_hidden)
 
 
-    if act=='sigmoid':
-        act_deriv_1 = sigmoid_prime(output1_hidden)
-    elif act=='tanh':
-        act_deriv_1 = tanh_prime(output1_hidden)
+            H2_grad = act_deriv_2 * np.dot(
+                y_grad, wH2_new[:2].transpose()
+            )  # this is updating the hidden layer
+            # exclude the bias (3rd column) of the outer weights, since it is not backpropagated!
+
+            hidden_1_with_bias = np.hstack(
+                [output1_hidden, np.ones((output1_hidden.shape[0], 1))]
+                )
+
+            delta_wH1 = -np.dot(H2_grad.transpose(), hidden_1_with_bias) * LR
+            wH1_new = hidden_1_weights + delta_wH1.transpose()  # old weights + delta weights -> new weights!
+
+        else:
+            if act=='sigmoid':
+                act_deriv_1 = sigmoid_prime(output1_hidden)
+            elif act=='tanh':
+                act_deriv_1 = tanh_prime(output1_hidden)
 
 
-    H1_grad = act_deriv_1 * np.dot(
-        H2_grad, wH1_new[:2].transpose()
-    )  # this is updating the hidden layer
-    # exclude the bias (3rd column) of the outer weights, since it is not backpropagated!
+            H1_grad = act_deriv_1 * np.dot(
+                H2_grad, wH1_new[:2].transpose()
+            )  # this is updating the hidden layer
+            # exclude the bias (3rd column) of the outer weights, since it is not backpropagated!
 
 
-    delta_wH = -np.dot(H1_grad.transpose(), X_input) * LR
-    wH_new = input_weights + delta_wH.transpose()  # old weights + delta weights -> new weights!
+            delta_wH = -np.dot(H1_grad.transpose(), X_input) * LR
+            wH_new = input_weights + delta_wH.transpose()  # old weights + delta weights -> new weights!
 
     return [wH_new, wH1_new, wH2_new] #input weight m, hidden 1 matrix, hidden 2 matrix respectively
