@@ -20,21 +20,20 @@ def epoch_one(X, y, num_epochs, input_weights, hidden_weights, LR, lr_h, act):
         # logging.debug(f'the shape of the log_loss is {log_loss(y,ypred).shape}')
     return average_log_loss, num_epochs
 
-#change
 
-def epoch_two(X, y, num_epochs, weights, LR, lr_h, act):
+def epoch_two(X, y, num_epochs, weights, LR, act):
 
 
     average_log_loss = []
     for i in range(num_epochs):
 
-        output1_hidden, output2_hidden, ypred = feed_forward_two_plus_hidden(X, weights, act)
+        neurons = feed_forward_two_plus_hidden(X, weights, act)
 
         weights = backprop_two_hidden(
-            weights, output1_hidden, output2_hidden, ypred, y, X, LR, lr_h, act
+            weights, neurons, y, X, LR, act
         )
 
-        average_log_loss.append(np.sum(log_loss(y, ypred)))
+        average_log_loss.append(np.sum(log_loss(y, neurons[-1]))) #neurons[-1] is ypred
         # logging.debug(f'the shape of the log_loss is {log_loss(y,ypred).shape}')
     return average_log_loss, num_epochs
 

@@ -84,24 +84,10 @@ if __name__ == "__main__":
     X, y = generate_data()
 
 
-    correct = False
-    while not correct:
 
-        depth = input('One hidden layer or two?\n\n').lower()
-        if depth == 'one' or depth == 'two':
-            correct = True
-
-    if depth == "one":
-
-        epoch_logloss, num_epochs = epoch_one(
-            X, y, 5000, initial_weights, hidden_2_weights, 0.01, 0.01, 'sigmoid'
-        )
-
-    elif depth == 'two':
-
-        epoch_logloss, num_epochs = epoch_two(
-            X, y, 5000, weights, 0.01, 0.01, 'sigmoid'
-        )
+    epoch_logloss, num_epochs = epoch_two(
+        X, y, 5000, weights, 0.01, 'sigmoid'
+    )
 
 
     plt.figure(figsize=(10, 8))

@@ -58,4 +58,5 @@ def feed_forward_two_plus_hidden(X, weights, act):
             hidden_final_x = np.dot(act_layers[i-1]['bias'], weights[i])
             #no tanh cos activation is probablity distribution
             final_y = sigmoid(hidden_final_x)
-    return act_layers[0]['normal'], act_layers[1]['normal'], final_y
+    neurons = [act_layers[0]['normal'], act_layers[1]['normal'], final_y]
+    return neurons

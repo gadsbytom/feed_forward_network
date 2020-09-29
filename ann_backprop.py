@@ -61,14 +61,16 @@ def backprop_one_hidden(
 
 # backpropagation once through
 def backprop_two_hidden(
-    weights, output1_hidden, output2_hidden, ypred, ytrue, X_input, LR, LR_H, act
+    weights, neurons, ytrue, X_input, LR, act
 ):
-
-#input_weights, hidden_1_weights, hidden_2_weights
 
     input_weights = weights[0]
     hidden_1_weights = weights[1]
     hidden_2_weights = weights[2]
+
+    output1_hidden = neurons[0] 
+    output2_hidden = neurons[1]
+    ypred = neurons[2]
 
     ytrue = ytrue.reshape(-1, 1)
 
