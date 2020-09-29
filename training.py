@@ -20,7 +20,7 @@ def epoch_one(X, y, num_epochs, input_weights, hidden_weights, LR, lr_h, act):
         # logging.debug(f'the shape of the log_loss is {log_loss(y,ypred).shape}')
     return average_log_loss, num_epochs
 
-
+#another change
 
 def epoch_two(X, y, num_epochs, weights, LR, lr_h, act):
 
