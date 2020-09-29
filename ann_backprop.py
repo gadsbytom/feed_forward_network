@@ -61,8 +61,14 @@ def backprop_one_hidden(
 
 # backpropagation once through
 def backprop_two_hidden(
-    input_weights, hidden_1_weights, hidden_2_weights, output1_hidden, output2_hidden, ypred, ytrue, X_input, LR, LR_H, act
+    weights, output1_hidden, output2_hidden, ypred, ytrue, X_input, LR, LR_H, act
 ):
+
+#input_weights, hidden_1_weights, hidden_2_weights
+
+    input_weights = weights[0]
+    hidden_1_weights = weights[1]
+    hidden_2_weights = weights[2]
 
     ytrue = ytrue.reshape(-1, 1)
 
@@ -117,4 +123,4 @@ def backprop_two_hidden(
     delta_wH = -np.dot(H1_grad.transpose(), X_input) * LR
     wH_new = input_weights + delta_wH.transpose()  # old weights + delta weights -> new weights!
 
-    return wH_new, wH1_new, wH2_new #input weight m, hidden 1 matrix, hidden 2 matrix respectively
+    return [wH_new, wH1_new, wH2_new] #input weight m, hidden 1 matrix, hidden 2 matrix respectively

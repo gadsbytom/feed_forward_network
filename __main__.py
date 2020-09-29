@@ -77,6 +77,8 @@ if __name__ == "__main__":
     hidden_1_weights = np.random.randn(3, 2)
     hidden_2_weights = np.random.randn(3, 1)
 
+    weights = [initial_weights, hidden_1_weights, hidden_2_weights]
+
     X, y = generate_data()
 
 
@@ -89,18 +91,18 @@ if __name__ == "__main__":
 
     if depth == "one":
 
-        epoch_logloss, num_epochs, _, _ = epoch_one(
+        epoch_logloss, num_epochs = epoch_one(
             X, y, 5000, initial_weights, hidden_2_weights, 0.01, 0.01, 'sigmoid'
         )
 
     elif depth == 'two':
 
-        epoch_logloss, num_epochs, _, _ = epoch_two(
-            X, y, 5000, initial_weights, hidden_1_weights, hidden_2_weights, 0.01, 0.01, 'sigmoid'
+        epoch_logloss, num_epochs = epoch_two(
+            X, y, 5000, weights, 0.01, 0.01, 'sigmoid'
         )
 
 
-    plt.figure(figsize=(10, 10))
+    plt.figure(figsize=(10, 8))
     plt.plot(epoch_logloss)
     plt.legend(f'Log loss after {num_epochs} epochs of SGD ')
     plt.show()

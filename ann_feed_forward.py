@@ -31,16 +31,16 @@ def feed_forward_one_hidden(X, weights_input, weights_m, act):
 
 
 # feed forward the x values through the neurons
-def feed_forward_two_plus_hidden(X, weights_input, weights_h_1, weights_h_2, act):
+def feed_forward_two_plus_hidden(X, weights, act):
 
     no_layers = 3
-    weights_matrices = [weights_input, weights_h_1, weights_h_2]
+
     act_layers = {}
 
     for i in range(no_layers):
         if i == 0:
             act_layers[i] = {}
-            input_weighted_x = np.dot(X, weights_matrices[i])
+            input_weighted_x = np.dot(X, weights[i])
             if act=='sigmoid':
                 act_layers[i]['normal'] = sigmoid(input_weighted_x)
             elif act=='tanh':
@@ -48,14 +48,14 @@ def feed_forward_two_plus_hidden(X, weights_input, weights_h_1, weights_h_2, act
             act_layers[i]['bias']  = np.hstack([act_layers[i]['normal'] , np.ones((act_layers[i]['normal'] .shape[0], 1))])
         elif i < no_layers-1:
             act_layers[i] = {}
-            hidden_weighted_x = np.dot(act_layers[i-1]['bias'], weights_matrices[i])
+            hidden_weighted_x = np.dot(act_layers[i-1]['bias'], weights[i])
             if act=='sigmoid':
                 act_layers[i]['normal'] = sigmoid(hidden_weighted_x)
             elif act=='tanh':
                 act_layers[i]['normal'] = tanh(hidden_weighted_x)
             act_layers[i]['bias'] = np.hstack([act_layers[i]['normal'], np.ones((act_layers[i]['normal'].shape[0], 1))])
         else:
-            hidden_final_x = np.dot(act_layers[i-1]['bias'], weights_matrices[i])
+            hidden_final_x = np.dot(act_layers[i-1]['bias'], weights[i])
             #no tanh cos activation is probablity distribution
             final_y = sigmoid(hidden_final_x)
     return act_layers[0]['normal'], act_layers[1]['normal'], final_y
