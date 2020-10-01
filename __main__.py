@@ -67,9 +67,9 @@ if __name__ == "__main__":
     hidden_layers = 1
 
     weights = {}
-    weights['input'] = np.random.randn(3, 2)
-    weights['hidden_1'] = np.random.randn(3, 2)
-    weights['output'] = np.random.randn(3, 1)
+    weights['0'] = np.random.randn(3, 2)
+    weights['1'] = np.random.randn(3, 2)
+    weights['2'] = np.random.randn(3, 1)
 
     print(weights.keys())
 
