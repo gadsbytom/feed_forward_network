@@ -64,13 +64,6 @@ def backprop_two_hidden(
     weights, neurons, ytrue, X_input, LR, act
 ):
 
-    input_weights = weights[0]
-    hidden_1_weights = weights[1]
-    hidden_2_weights = weights[2]
-
-    output1_hidden = neurons[0] 
-    output2_hidden = neurons[1]
-    ypred = neurons[2]
 
     ytrue = ytrue.reshape(-1, 1)
 
@@ -80,27 +73,27 @@ def backprop_two_hidden(
 
         if i == 0:
 
-            error = (ypred - ytrue) * log_loss(ytrue, ypred)  # although order doesn't matter
+            error = (neurons['output'] - ytrue) * log_loss(ytrue, neurons['output'])  # although order doesn't matter
             # no option here as output layer is probability distribution
-            act_deriv = sigmoid_prime(ypred)
+            act_deriv = sigmoid_prime(neurons['output'])
             # derivative of the sigmoid function with respect to the hidden output *
             y_grad = act_deriv * error
 
             hidden_2_with_bias = np.hstack(
-                [output2_hidden, np.ones((output2_hidden.shape[0], 1))]
+                [neurons['hidden_1'], np.ones((neurons['hidden_1'].shape[0], 1))]
             )# include bias
 
             delta_wH2 = -np.dot(y_grad.transpose(), hidden_2_with_bias) * LR
 
             # old weights + delta weights -> new weights!
-            wH2_new = hidden_2_weights + delta_wH2.transpose()
+            wH2_new = weights['output'] + delta_wH2.transpose()
         
         elif i < no_layers-1:
 
             if act=='sigmoid':
-                act_deriv_2 = sigmoid_prime(output2_hidden)
+                act_deriv_2 = sigmoid_prime(neurons['hidden_1'])
             elif act=='tanh':
-                act_deriv_2 = tanh_prime(output2_hidden)
+                act_deriv_2 = tanh_prime(neurons['hidden_1'])
 
 
             H2_grad = act_deriv_2 * np.dot(
@@ -109,17 +102,17 @@ def backprop_two_hidden(
             # exclude the bias (3rd column) of the outer weights, since it is not backpropagated!
 
             hidden_1_with_bias = np.hstack(
-                [output1_hidden, np.ones((output1_hidden.shape[0], 1))]
+                [neurons['input'], np.ones((neurons['input'].shape[0], 1))]
                 )
 
             delta_wH1 = -np.dot(H2_grad.transpose(), hidden_1_with_bias) * LR
-            wH1_new = hidden_1_weights + delta_wH1.transpose()  # old weights + delta weights -> new weights!
+            wH1_new = weights['hidden_1'] + delta_wH1.transpose()  # old weights + delta weights -> new weights!
 
         else:
             if act=='sigmoid':
-                act_deriv_1 = sigmoid_prime(output1_hidden)
+                act_deriv_1 = sigmoid_prime(neurons['input'])
             elif act=='tanh':
-                act_deriv_1 = tanh_prime(output1_hidden)
+                act_deriv_1 = tanh_prime(neurons['input'])
 
 
             H1_grad = act_deriv_1 * np.dot(
@@ -129,6 +122,10 @@ def backprop_two_hidden(
 
 
             delta_wH = -np.dot(H1_grad.transpose(), X_input) * LR
-            wH_new = input_weights + delta_wH.transpose()  # old weights + delta weights -> new weights!
-
-    return [wH_new, wH1_new, wH2_new] #input weight m, hidden 1 matrix, hidden 2 matrix respectively
+            wH_new = weights['input'] + delta_wH.transpose()  # old weights + delta weights -> new weights!
+    new_weights = {}
+    new_weights['input'] = wH_new
+    new_weights['hidden_1'] = wH1_new
+    new_weights['output'] = wH2_new
+    
+    return new_weights #input weight m, hidden 1 matrix, hidden 2 matrix respectively

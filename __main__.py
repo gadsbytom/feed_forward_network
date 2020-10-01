@@ -64,13 +64,11 @@ if __name__ == "__main__":
 
     X, y = generate_data()
 
-
     hidden_layers = 1
 
     weights = {}
-    weights['input'] = np.random.randn(3, 2) 
-    for i in range(hidden_layers):
-        weights[f'hidden_{i}'] = np.random.randn(3, 2)
+    weights['input'] = np.random.randn(3, 2)
+    weights['hidden_1'] = np.random.randn(3, 2)
     weights['output'] = np.random.randn(3, 1)
 
     print(weights.keys())
