@@ -71,35 +71,51 @@ def backprop_two_hidden(
 
     inverse_loop = list(range(no_layers))[::-1]
 
+    gradients = {}
+
     for i in inverse_loop:
 
         if i == inverse_loop[0]:
 
+            print(f'Backprop at layer: {i} has these shapes') 
+
             error = (neurons[f'{i}'] - ytrue) * log_loss(ytrue, neurons[f'{i}'])  # although order doesn't matter
             # no option here as output layer is probability distribution
             act_deriv = sigmoid_prime(neurons[f'{i}'])
+
+            print('act_deriv shape ' + str(act_deriv.shape))
             # derivative of the sigmoid function with respect to the hidden output *
-            y_grad = act_deriv * error
+            gradients[f'{i}'] = act_deriv * error
 
             hidden_2_with_bias = np.hstack(
                 [neurons[f'{i-1}'], np.ones((neurons[f'{i-1}'].shape[0], 1))]
             )# include bias
 
-            delta_wH2 = -np.dot(y_grad.transpose(), hidden_2_with_bias) * LR
+            print('hidden_2_bias shape ' + str(hidden_2_with_bias.shape))
+
+            delta_wH2 = -np.dot(gradients[f'{i}'].transpose(), hidden_2_with_bias) * LR
+
+            print('delta wh2 shape ' + str(delta_wH2.shape))
 
             # old weights + delta weights -> new weights!
             weights[f'{i}']= weights[f'{i}'] + delta_wH2.transpose()
+
+            print('new weights shape ' + str(weights[f'{i}'].shape))
+
         
         elif i > 0:
+
+            print(f'Backprop at layer: {i} has these shapes') 
 
             if act=='sigmoid':
                 act_deriv_2 = sigmoid_prime(neurons[f'{i}'])
             elif act=='tanh':
                 act_deriv_2 = tanh_prime(neurons[f'{i}'])
 
+            print('act_deriv 2 shape ' + str(act_deriv_2.shape))
 
-            H2_grad = act_deriv_2 * np.dot(
-                y_grad, weights[f'{i+1}'][:2].transpose()
+            gradients[f'{i}'] = act_deriv_2 * np.dot(
+                gradients[f'{i+1}'], weights[f'{i+1}'][:2].transpose()
             )  # this is updating the hidden layer
             # exclude the bias (3rd column) of the outer weights, since it is not backpropagated!
 
@@ -107,24 +123,38 @@ def backprop_two_hidden(
                 [neurons[f'{i}'], np.ones((neurons[f'{i}'].shape[0], 1))]
                 )
 
-            delta_wH1 = -np.dot(H2_grad.transpose(), hidden_1_with_bias) * LR
+            print('hidden_1_bias shape ' + str(hidden_1_with_bias.shape))
+
+            delta_wH1 = -np.dot(gradients[f'{i}'].transpose(), hidden_1_with_bias) * LR
+
+            print('delta wh1 shape ' + str(delta_wH1.shape))
+
             weights[f'{i}'] = weights[f'{i}'] + delta_wH1.transpose()  # old weights + delta weights -> new weights!
 
+            print('new weights shape ' + str(weights[f'{i}'].shape))
+
         else:
+            print(f'Backprop at layer: {i} has these shapes') 
             if act=='sigmoid':
                 act_deriv_1 = sigmoid_prime(neurons[f'{i}'])
             elif act=='tanh':
                 act_deriv_1 = tanh_prime(neurons[f'{i}'])
 
+            print('act_deriv 1 shape ' + str(act_deriv_1.shape))
 
-            H1_grad = act_deriv_1 * np.dot(
-                H2_grad, weights[f'{i+1}'][:2].transpose()
+            gradients[f'{i}'] = act_deriv_1 * np.dot(
+                gradients[f'{i+1}'], weights[f'{i+1}'][:2].transpose()
             )  # this is updating the hidden layer
             # exclude the bias (3rd column) of the outer weights, since it is not backpropagated!
 
+            print('X_input' + str(X_input.shape))
 
-            delta_wH = -np.dot(H1_grad.transpose(), X_input) * LR
+            delta_wH = -np.dot(gradients[f'{i}'].transpose(), X_input) * LR
+
+            print('delta wh shape ' + str(delta_wH.shape))
+
             weights[f'{i}'] = weights[f'{i}'] + delta_wH.transpose()  # old weights + delta weights -> new weights!
 
-    
+            print('new weights shape ' + str(weights[f'{i}'].shape))
+
     return weights #input weight m, hidden 1 matrix, hidden 2 matrix respectively

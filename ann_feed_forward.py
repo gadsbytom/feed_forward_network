@@ -50,6 +50,12 @@ def feed_forward_two_plus_hidden(X, weights, act):
                 act_layers[f'{i}']['normal']  = tanh(input_weighted_x)
             neurons[f'{i}'] = act_layers[f'{i}']['normal']
             act_layers[f'{i}']['bias']  = np.hstack([act_layers[f'{i}']['normal'] , np.ones((act_layers[f'{i}']['normal'] .shape[0], 1))])
+
+            print(f'Feed forward layer: {i} has following shapes') 
+            print('ACTIVATIONS')
+            print(act_layers[f'{i}']['bias'].shape)
+            # print('NEURONS')
+            # print(neurons[f'{i}'].shape)
             
         elif i < no_layers-1:
             act_layers[f'{i}'] = {}
@@ -60,10 +66,22 @@ def feed_forward_two_plus_hidden(X, weights, act):
                 act_layers[f'{i}']['normal'] = tanh(hidden_weighted_x)
             neurons[f'{i}'] = act_layers[f'{i-1}']['normal']
             act_layers[f'{i}']['bias'] = np.hstack([act_layers[f'{i}']['normal'], np.ones((act_layers[f'{i}']['normal'].shape[0], 1))])
+
+            print(f'Feed forward layer: {i} has following shapes')
+            print('ACTIVATIONS')
+            print(act_layers[f'{i}']['bias'].shape)
+            # print('NEURONS')
+            # print(neurons[f'{i}'].shape)
+
          
         else:
             hidden_final_x = np.dot(act_layers[f'{i-1}']['bias'], weights[f'{i}'])
             #no tanh cos activation is probablity distribution
             final_y = sigmoid(hidden_final_x)
             neurons[f'{i}'] = final_y
+
+            print('NEURONS AT FINAL LAYER')
+            print(neurons[f'{i}'].shape)
+
+
     return neurons

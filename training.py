@@ -16,6 +16,7 @@ def epoch_two(X, y, num_epochs, weights, LR, act):
             weights, neurons, y, X, LR, act
         )
 
-        average_log_loss.append(np.sum(log_loss(y, neurons['2']))) #neurons[-1] is ypred
+        ypred = neurons[list(neurons.keys())[-1]]
+        average_log_loss.append(np.sum(log_loss(y, ypred))) #neurons[-1] is ypred
         # logging.debug(f'the shape of the log_loss is {log_loss(y,ypred).shape}')
     return average_log_loss, num_epochs

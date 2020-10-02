@@ -69,7 +69,8 @@ if __name__ == "__main__":
     weights = {}
     weights['0'] = np.random.randn(3, 2)
     weights['1'] = np.random.randn(3, 2)
-    weights['2'] = np.random.randn(3, 1)
+    weights['2'] = np.random.randn(3, 2)
+    weights['3'] = np.random.randn(3, 1)
 
     print(weights.keys())
 
