@@ -33,8 +33,6 @@ def feed_forward_one_hidden(X, weights_input, weights_m, act):
 # feed forward the x values through the neurons
 def feed_forward_two_plus_hidden(X, weights, act):
 
-    #dict_keys(['input', 'hidden_0', 'output'])
-
     no_layers = len(weights.keys())
     neurons = {}
     act_layers = {}
