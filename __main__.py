@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf8
 from sklearn.datasets import make_moons
-from training import epoch_two
+from training import epoch_training
 import time
 from matplotlib import pyplot as plt
 import numpy as np
@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
     print(weights.items())
 
-    epoch_logloss, num_epochs = epoch_two(
+    epoch_logloss, num_epochs = epoch_training(
         X, y, 5000, weights, 0.01, activation
     )
 
