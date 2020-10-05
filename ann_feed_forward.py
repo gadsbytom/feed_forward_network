@@ -13,25 +13,7 @@ def tanh(x):
     return (np.exp(x) - np.exp(-x)) / (np.exp(x) + np.exp(-x))
 
 # feed forward the x values through the neurons
-def feed_forward_one_hidden(X, weights_input, weights_m, act):
-
-    """Input: Observation data X and proceses one feed-forward loop
-    Output: probablity distribution for y classes"""
-
-    weighted_x = np.dot(X, weights_input)
-    if act=='sigmoid':
-        act_x = sigmoid(weighted_x)
-    elif act=='tanh':
-        act_x = tanh(weighted_x)
-    act_x_bias = np.hstack([act_x, np.ones((act_x.shape[0], 1))])
-    hidden_weighted_x = np.dot(act_x_bias, weights_m)
-    #no tanh cos activation is probablity distribution
-    final_y = sigmoid(hidden_weighted_x)
-    return act_x, final_y
-
-
-# feed forward the x values through the neurons
-def feed_forward_two_plus_hidden(X, weights, act):
+def feed_forward(X, weights, act):
 
     no_layers = len(weights.keys())
     neurons = {}

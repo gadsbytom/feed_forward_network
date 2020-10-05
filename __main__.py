@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 # coding: utf8
 from sklearn.datasets import make_moons
@@ -68,3 +69,6 @@ if __name__ == "__main__":
     plt.plot(epoch_logloss)
     plt.legend(f'Log loss after {num_epochs} epochs of SGD ')
     plt.show()
+
+
+

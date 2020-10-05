@@ -1,18 +1,17 @@
 import numpy as np
-from ann_feed_forward import feed_forward_two_plus_hidden, sigmoid, tanh
-from ann_backprop import backprop_two_hidden, log_loss
+from ann_feed_forward import feed_forward, sigmoid, tanh
+from ann_backprop import backprop, log_loss
 
 
-
-def epoch_two(X, y, num_epochs, weights, LR, act):
+def epoch_training(X, y, num_epochs, weights, LR, act):
 
 
     average_log_loss = []
     for i in range(num_epochs):
 
-        neurons = feed_forward_two_plus_hidden(X, weights, act)
+        neurons = feed_forward(X, weights, act)
 
-        weights = backprop_two_hidden(
+        weights = backprop(
             weights, neurons, y, X, LR, act
         )
 
