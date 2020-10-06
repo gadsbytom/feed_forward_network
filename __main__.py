@@ -18,8 +18,6 @@ if __name__ == "__main__":
 
 
     X, y = generate_data()
-
-    print(X.shape, y.shape)
     weights = {}
 
     print('How many hidden layers would you like for the network?\n')
@@ -27,47 +25,41 @@ if __name__ == "__main__":
     no_layers = hidden_layers + 2 #no_layers = intput + hidden_layers + output
     time.sleep(0.5)
 
-    print(f"\nWhich activation function would you like to use in the Hidden Layers?\nChoose between 'sigmoid' & 'tanh'\n")
-    activation = input()
+    correct_function = False
+    activations = ['sigmoid', 'tanh']
+    while not correct_function:
+        print(f"\nWhich activation function would you like to use in the Hidden Layers?\nChoose between 'sigmoid' & 'tanh'\n")
+        activation = input()
+        if activation in activations:
+            correct_function = True
+        else:
+            print("Sorry, we dont know that one!")
     time.sleep(0.5)
-
     #input layer
     input_shape = X.shape[1]
     weights['0'] = {}
 
     for i in range(hidden_layers):
-        #need to debug shape errors in backprop
-        #print(f"\nHow many neurons would you like in the {i+1}'st hidden layer\n")
-        #neurons = int(input())
-        neurons = 2
+        #need to debug shape errors in backprop - for now leave fixed at 3
+        neurons = 3
         weights[f'{i}'] = np.random.randn(input_shape, neurons)
         input_shape = neurons +1
         weights[f'{i+1}'] = {}
-        print(f'shape for layer {i} is:')
-        print(weights[f'{i}'].shape)
 
     #output layer
     weights[f'{i+1}']= np.random.randn(input_shape, neurons)
-    print(f'shape for layer {i+1} is:')
-    print(weights[f'{i+1}'].shape)
     input_shape = neurons +1
-    output_shape = 1 #need to customise this for new datasets
+    output_shape = 1
     weights[f'{i+2}'] = {}
     weights[f'{i+2}'] = np.random.randn(input_shape, output_shape)
-    print(f'shape for layer {i+2} is:')
-    print(weights[f'{i+2}'].shape)
-
-
-    print(weights.items())
 
     epoch_logloss, num_epochs = epoch_training(
         X, y, 5000, weights, 0.01, activation
     )
 
-
     plt.figure(figsize=(10, 8))
     plt.plot(epoch_logloss)
-    plt.legend(f'Log loss after {num_epochs} epochs of SGD ')
+    plt.title(f'Log loss after {num_epochs} epochs of SGD ')
     plt.show()
 
 
