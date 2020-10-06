@@ -12,15 +12,13 @@
 ---
 ### Resources
 
-* Root
+* main - code which collates user input determining network structure
 
-    * main - code which collates user input determining network structure
+* training - code which runs feed forward and backprop for X no. of epochs
 
-    * training - code which runs feed forward and backprop for X no. of epochs
+* ann_feed_forward - code which runs the feed forward loop through the network
 
-    * ann_feed_forward - code which runs the feed forward loop through the network
-
-    * ann_backprop - code which updates the weights matrices
+* ann_backprop - code which updates the weights matrices
 
 
 ---
