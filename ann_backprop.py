@@ -5,7 +5,6 @@ from ann_feed_forward import feed_forward, sigmoid, tanh
 import logging
 import math
 import numpy as np
-import pandas as pd
 
 
 # define log loss
@@ -30,8 +29,7 @@ def backprop(
     weights, neurons, ytrue, X_input, LR, act
 ):
     ytrue = ytrue.reshape(-1, 1)
-    no_layers = len(weights)
-    inverse_loop = list(range(no_layers))[::-1]
+    inverse_loop = list(range(len(weights)))[::-1]
 
     gradients = {}
 
