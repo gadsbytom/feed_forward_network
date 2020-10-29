@@ -40,7 +40,7 @@ if __name__ == "__main__":
     weights['0'] = {}
 
     for i in range(hidden_layers):
-        #need to debug shape errors in backprop - for now leave fixed at 3
+        #need to debug shape errors in backprop - for now leave fixed at 3 neurons per layer
         neurons = 3
         weights[f'{i}'] = np.random.randn(input_shape, neurons)
         input_shape = neurons +1
