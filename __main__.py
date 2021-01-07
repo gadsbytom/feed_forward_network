@@ -35,6 +35,7 @@ if __name__ == "__main__":
         else:
             print("Sorry, we dont know that one!")
     time.sleep(0.5)
+
     #input layer
     input_shape = X.shape[1]
     weights['0'] = {}
