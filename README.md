@@ -12,7 +12,7 @@
 ---
 ### Resources
 
-* __main__.py - code which collates user input determining network structure
+* \__main__.py - code which collates user input determining network structure
 
 * training.py - code which runs feed forward and backprop for X no. of epochs
 
