@@ -3,11 +3,11 @@
 ### Description:
 #### A python implementation of a Dense, Feed Forward Neural Network
 
-* Command Line Interface to build
+* Command Line Interface to build the network
 
-* Customise number of hidden layers in the network, and the activation function used
+* Customise number of hidden layers in the network, and the activation function used per layer
 
-* Prints out loss metrics over time
+* Returns the loss curve after 5000 iterations
 
 ---
 ### Resources
@@ -25,4 +25,6 @@
 ### How to Use:
 
 * `python __main__.py`
-* You'll be prompted to set the structure of the network
+* Input the number of hidden layers in the network
+* Input the activation function to be used
+* Receive a printout of the loss curve
