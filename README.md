@@ -12,13 +12,13 @@
 ---
 ### Resources
 
-* \__main__.py - code which collates user input determining network structure
+* `__main__.py` - code which collates user input determining network structure
 
-* training.py - code which runs feed forward and backprop for X no. of epochs
+* `training.py` - code which runs feed forward and backprop for X no. of epochs
 
-* ann_feed_forward.py - code which runs the feed forward loop through the network
+* `ann_feed_forward.py` - code which runs the feed forward loop through the network
 
-* ann_backprop.py - code which updates the weights matrices
+* `ann_backprop.py` - code which updates the weights matrices
 
 
 ---
