@@ -27,4 +27,4 @@
 * `python __main__.py`
 * Input the number of hidden layers in the network
 * Input the activation function to be used
-* Receive a printout of the loss curve
+* Receive a printout of the loss curve for training and validation sets
