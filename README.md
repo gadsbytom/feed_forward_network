@@ -1,4 +1,4 @@
-# Customisable Artificial Neural Network:
+# Customisable Feed Forward Neural Network:
 ---
 ### Description:
 #### Python implementation of a Dense, Feed Forward Neural Network
