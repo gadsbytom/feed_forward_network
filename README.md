@@ -7,7 +7,7 @@
 
 * Customise number of hidden layers in the network, and the activation function used per layer
 
-* Plots the loss curve after 5000 iterations
+* Plots the loss curve after n iterations (currently hardcoded to 5000)
 
 ---
 ### Resources
